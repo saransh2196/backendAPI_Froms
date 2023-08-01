@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import LoginForm from "./components/LoginForm";
+import DocumentForm from "./components/DocumentForm";
 
-function App() {
+const App = () => {
+  const [token, setToken] = useState("");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          {token ? (
+            <li>
+              <Link to="/documents">Add Document</Link>
+            </li>
+          ) : null}
+        </ul>
+      </nav>
+
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={<LoginForm  setToken={setToken}/>}
+        ></Route>
+        <Route
+          path="/documents"
+          element={<DocumentForm token={token} />}
+        ></Route>
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
